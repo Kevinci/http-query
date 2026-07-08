@@ -1,0 +1,58 @@
+{
+  "name": "@http-query/client",
+  "version": "0.1.0",
+  "description": "TypeScript client for the HTTP QUERY method (RFC 10008). Supports fallbacks, retries, timeout, middleware, caching, and full type safety.",
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Imig",
+    "url": "https://github.com/kevinci/http-query"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinimig/http-query.git",
+    "directory": "packages/client"
+  },
+  "homepage": "https://github.com/kevinimig/http-query/tree/main/packages/client#readme",
+  "keywords": [
+    "http",
+    "query",
+    "rfc10008",
+    "fetch",
+    "client",
+    "typescript",
+    "request",
+    "fallback",
+    "retry",
+    "timeout",
+    "middleware"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint . --ext .ts",
+    "prepare": "npm run build",
+    "prepare:ghpages": "npm run build && node ./scripts/prepare-ghpages.js",
+    "dev": "node ./scripts/dev-server.js",
+    "mock-server": "node ./scripts/mock-server.js"
+  },
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.0.0",
+    "tsup": "^6.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
