@@ -34,7 +34,7 @@ jobs:
       - name: Check docs output
         run: |
           ls -la packages/client
-          ls -la packages/client/docs
+          ls -la packages/docs
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
