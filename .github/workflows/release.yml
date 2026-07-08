@@ -42,7 +42,7 @@ jobs:
         run: cd packages/client && npm test -- --run
 
       - name: Create Release PR / Publish
-        uses: changesets/action@v1
+        uses: changesets/action@v1.4.1
         with:
           publish: cd packages/client && npm publish
           version: changeset version
