@@ -1,4 +1,4 @@
-# Publish-Prep Summary — @http-query/client v0.1.0
+# Publish-Prep Summary — @kevincii/http-query-client v0.1.0
 
 ## What Was Done (Complete List)
 
@@ -85,7 +85,7 @@ All work for publish-ready package completed. Here's what was added:
 ## Key Findings from Research
 
 ### Market Status
-- **First-mover advantage:** No existing `@http-query/client` on npm
+- **First-mover advantage:** No existing `@kevincii/http-query-client` on npm
 - **Namespace unclaimed:** `@http-query` scope is free for reservation
 - **Early adoption:** Fastify HTTP QUERY plugin exists (June 2026)
 - **RFC 10008 momentum:** Growing interest in standard HTTP QUERY method
@@ -125,7 +125,7 @@ All work for publish-ready package completed. Here's what was added:
 ## Next Steps to Publish (For You)
 
 1. **Review** all new documentation files
-2. **Verify** GitHub username/org in package.json (currently uses `kevinimig`)
+2. **Verify** GitHub username/org in package.json (currently uses `Kevinci`)
 3. **Create npm account** or org (if not already done)
 4. **Set GitHub secret** `NPM_TOKEN` (for automation)
 5. **Manual publish** (recommended first time):

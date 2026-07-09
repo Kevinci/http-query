@@ -1,4 +1,4 @@
-name: Deploy client demo to GitHub Pages
+name: Deploy documentation to GitHub Pages
 
 on:
   push:
@@ -19,22 +19,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
-      - name: Install client dependencies
-        run: |
-          cd packages/client
-          npm ci
+      - name: Install workspace dependencies
+        run: npm ci
 
-      - name: Build and prepare docs
-        run: |
-          cd packages/client
-          npm run prepare:ghpages
+      - name: Build packages and prepare docs
+        run: npm run docs
 
       - name: Check docs output
-        run: |
-          ls -la packages/client
-          ls -la packages/docs
+        run: ls -la packages/docs
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3

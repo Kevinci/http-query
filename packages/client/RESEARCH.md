@@ -1,14 +1,14 @@
-# @http-query/client — Research & Competitive Analysis
+# @kevincii/http-query-client — Research & Competitive Analysis
 
 Date: July 8, 2026
 
 ## Summary
 
-`@http-query/client` is a **new** TypeScript client for the HTTP QUERY method (RFC 10008). The package name and namespace are currently unclaimed on npm.
+`@kevincii/http-query-client` is a **new** TypeScript client for the HTTP QUERY method (RFC 10008). The package name and namespace are currently unclaimed on npm.
 
 **Status:**
 - ✅ Namespace `@http-query/*` is available
-- ✅ Package `@http-query/client` has not been published yet (verified via `npm view @http-query/client` → 404)
+- ✅ Package `@kevincii/http-query-client` has not been published yet (verified via `npm view @kevincii/http-query-client` → 404)
 - ⚠️  There are other packages with "http query" in npm, but they serve different purposes
 - 🚀 The QUERY method is starting to gain adoption (see findings below)
 
@@ -23,9 +23,9 @@ Date: July 8, 2026
 - **Description:** Plugin to enable HTTP query method in Fastify
 - **License:** MIT
 - **Author:** luca@delpuppo.net (@puppo92)
-- **Note:** This is a Fastify plugin. Your `@http-query/client` is a standalone client library. **These are complementary**, not competing:
+- **Note:** This is a Fastify plugin. Your `@kevincii/http-query-client` is a standalone client library. **These are complementary**, not competing:
   - `@thecodepace/fastify-http-query` — server-side Fastify plugin
-  - `@http-query/client` — client-side TypeScript library (framework-agnostic)
+  - `@kevincii/http-query-client` — client-side TypeScript library (framework-agnostic)
   - Future plans: `@http-query/node`, `@http-query/express`, `@http-query/fastify` (from RFC 10008 ecosystem)
 
 ### Different Purpose (Query String / Parameter Handling)
@@ -36,7 +36,7 @@ Date: July 8, 2026
 - `json-to-http-query-string` — Convert JSON to query strings
 - ... and 15+ others
 
-**Conclusion:** None of these are direct competitors to `@http-query/client`. They handle URL query **parameters**, not the HTTP `QUERY` **method**.
+**Conclusion:** None of these are direct competitors to `@kevincii/http-query-client`. They handle URL query **parameters**, not the HTTP `QUERY` **method**.
 
 ---
 
@@ -49,13 +49,13 @@ Evidence that RFC 10008 QUERY method is gaining early adoption:
    - Shows server-side adoption is starting
 
 2. **Your Ecosystem**
-   - `@http-query/client` — reference client implementation
+   - `@kevincii/http-query-client` — reference client implementation
    - Planned packages: `@http-query/react`, `@http-query/node`, `@http-query/express`, `@http-query/fastify`, `@http-query/openapi`
    - This suggests a coordinated RFC 10008 adoption effort
 
 ---
 
-## Competitive Advantages of `@http-query/client`
+## Competitive Advantages of `@kevincii/http-query-client`
 
 ### Unique to This Package
 
@@ -139,7 +139,7 @@ Your client is **purpose-built** for the QUERY method.
 ## Context7 Search Results
 
 Context7 library search for "http-query client" found:
-- No exact match for `@http-query/client`
+- No exact match for `@kevincii/http-query-client`
 - Multiple HTTP client libraries (axios, got, fetch wrappers, etc.)
 - None specifically for RFC 10008 QUERY method
 
@@ -148,6 +148,6 @@ Context7 library search for "http-query client" found:
 ---
 
 Generated: July 8, 2026  
-Author: Research & Analysis for @http-query/client  
+Author: Research & Analysis for @kevincii/http-query-client  
 Next Review: Before 0.1.0 release
 

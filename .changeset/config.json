@@ -2,7 +2,7 @@
   "changelog": [
     "@changesets/cli/changelog",
     {
-      "repo": "kevinimig/http-query"
+      "repo": "Kevinci/http-query"
     }
   ],
   "commit": false,

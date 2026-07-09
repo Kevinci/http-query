@@ -1,0 +1,55 @@
+{
+  "name": "@kevincii/http-query-core",
+  "version": "0.2.0",
+  "description": "Framework-agnostic engine for the HTTP QUERY method: type-safe query building, nested filter serialization, fallbacks, retries, timeout, caching, pagination. Zero dependencies.",
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Imig",
+    "url": "https://github.com/Kevinci/http-query"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kevinci/http-query.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Kevinci/http-query/tree/main/packages/core#readme",
+  "keywords": [
+    "http",
+    "query",
+    "rfc",
+    "fetch",
+    "typescript",
+    "filter",
+    "pagination",
+    "serialize",
+    "retry",
+    "cache"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": ["dist", "LICENSE", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

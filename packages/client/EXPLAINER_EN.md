@@ -1,10 +1,10 @@
-# @http-query/client — Quick Guide (For Beginners)
+# @kevincii/http-query-client — Quick Guide (For Beginners)
 
 This is a simple explanation of what this package does and how to use it. No prior knowledge required.
 
 ## What is This?
 
-`@http-query/client` is a small TypeScript library that supports the new HTTP method `QUERY` (RFC 10008). It lets you send HTTP requests with a JSON body — similar to `POST`, but with its own dedicated method.
+`@kevincii/http-query-client` is a small TypeScript library that supports the new HTTP method `QUERY` (RFC 10008). It lets you send HTTP requests with a JSON body — similar to `POST`, but with its own dedicated method.
 
 The goal of this library is to give developers a clean, type-safe, and extensible API for `QUERY` requests, including:
 
@@ -55,7 +55,7 @@ npm run mock-server
 ### Simple: Top-level helper
 
 ```ts
-import { query } from "@http-query/client";
+import { query } from "@kevincii/http-query-client";
 
 // Types are optional
 const users = await query<{ id: number; name: string }[]>("/users", {
@@ -68,7 +68,7 @@ console.log(users);
 ### Advanced: Configured client
 
 ```ts
-import { createClient } from "@http-query/client";
+import { createClient } from "@kevincii/http-query-client";
 
 const client = createClient({ 
   baseUrl: "https://api.example.com", 
@@ -120,7 +120,7 @@ The library throws specific error types:
 - `ParseError` — response parsing failed (JSON parse error)
 
 ```ts
-import { HttpError, TimeoutError } from "@http-query/client";
+import { HttpError, TimeoutError } from "@kevincii/http-query-client";
 
 try {
   await client.request("/users");

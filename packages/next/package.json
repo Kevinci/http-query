@@ -1,0 +1,53 @@
+{
+  "name": "@kevincii/http-query-next",
+  "version": "0.2.0",
+  "description": "Next.js integration for the HTTP QUERY method: a Node server client, RSC data fetching, App Router route-handler helpers, and re-exported React hooks.",
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Imig",
+    "url": "https://github.com/Kevinci/http-query"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kevinci/http-query.git",
+    "directory": "packages/next"
+  },
+  "homepage": "https://github.com/Kevinci/http-query/tree/main/packages/next#readme",
+  "keywords": ["http", "query", "next", "nextjs", "rsc", "route-handler", "server", "typescript"],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": ["dist", "LICENSE", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "@kevincii/http-query-core": "^0.2.0",
+    "@kevincii/http-query-react": "^0.2.0"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "react": "^18.3.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

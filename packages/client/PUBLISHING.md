@@ -1,6 +1,6 @@
-# Publishing Guide for @http-query/client
+# Publishing Guide for @kevincii/http-query-client
 
-This guide explains how to publish `@http-query/client` to npm.
+This guide explains how to publish `@kevincii/http-query-client` to npm.
 
 ## Prerequisites
 
@@ -73,12 +73,12 @@ npm login
 npm publish --access public
 
 # Verify it worked
-npm view @http-query/client
+npm view @kevincii/http-query-client
 ```
 
 Expected output:
 ```
-@http-query/client@0.1.0
+@kevincii/http-query-client@0.1.0
 
   TypeScript client for the HTTP QUERY method (RFC 10008)...
   dist: 7.5KB
@@ -91,7 +91,7 @@ After successful npm publish:
 
 ```bash
 # Tag the release
-git tag -a v0.1.0 -m "Release @http-query/client v0.1.0"
+git tag -a v0.1.0 -m "Release @kevincii/http-query-client v0.1.0"
 git push origin v0.1.0
 
 # Go to https://github.com/YOUR_USERNAME/http-query/releases
@@ -132,7 +132,7 @@ git push origin main
 **Announcement template:**
 
 ```
-🚀 Releasing @http-query/client v0.1.0 — 
+🚀 Releasing @kevincii/http-query-client v0.1.0 — 
 Reference implementation of HTTP QUERY method (RFC 10008).
 
 Features:
@@ -141,7 +141,7 @@ Features:
 • Retries, timeout, middleware, caching
 • Zero runtime dependencies
 
-Try it: npm install @http-query/client
+Try it: npm install @kevincii/http-query-client
 
 GitHub: https://github.com/YOUR_USERNAME/http-query
 Demo: https://github.com/YOUR_USERNAME/http-query/tree/main/packages/client/demo
@@ -162,7 +162,7 @@ Demo: https://github.com/YOUR_USERNAME/http-query/tree/main/packages/client/demo
 ### "npm ERR! 404 Not Found"
 
 - Ensure package name is correct in `package.json`
-- Ensure `npm view @http-query/client` is still 404 before first publish
+- Ensure `npm view @kevincii/http-query-client` is still 404 before first publish
 
 ### "npm ERR! You do not have permission to publish..."
 

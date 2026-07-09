@@ -1,17 +1,13 @@
 ---
-"@http-query/client": minor
+"@kevincii/http-query-core": minor
+"@kevincii/http-query-client": minor
+"@kevincii/http-query-react": minor
+"@kevincii/http-query-next": minor
 ---
 
-Initial release of @http-query/client - a TypeScript client for the HTTP QUERY method (RFC 10008).
+Introduce the **@kevincii/http-query ecosystem** — a type-safe, QUERY-first toolkit for complex API reads.
 
-Includes:
-- Full HTTP QUERY support with automatic fallback (POST, GET)
-- Type-safe API with generics
-- Built-in retry logic with exponential backoff
-- Timeout and AbortController support
-- Optional in-memory caching with TTL
-- Middleware/hook system (beforeRequest, afterResponse, onError)
-- Multiple response parsing modes (json, text, blob, arrayBuffer)
-- Comprehensive test suite and demo
-- Zero runtime dependencies
-
+- **@kevincii/http-query-core** — framework-agnostic engine: type-safe `query()`, nested filter serialization (`filter[age][gte]=18`), typed filter operators, QUERY → POST → GET fallback, retries, timeout, AbortController, in-memory caching, middleware, and pagination helpers (`paginate`, `collectPages`, `queryPage`). Zero dependencies.
+- **@kevincii/http-query-client** — batteries-included browser + Node client that re-exports core and ships a preconfigured default client (`client`, `createBrowserClient`).
+- **@kevincii/http-query-react** — `HttpQueryProvider` with a shared, deduped cache plus `useHttpQuery`, `useInfiniteHttpQuery`, and `useHttpMutation`.
+- **@kevincii/http-query-next** — Node server client, `queryOnServer` for RSC, `createQueryRouteHandler` for App Router route handlers, and re-exported React hooks for Client Components.

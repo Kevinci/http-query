@@ -1,113 +1,62 @@
-# @http-query/client
+# @kevincii/http-query-client
 
-Reference TypeScript client for the HTTP QUERY method (RFC 10008).
+Batteries-included TypeScript client for the HTTP `QUERY` method — the
+DX-focused entry point of the [`@kevincii/http-query`](https://github.com/Kevinci/http-query)
+ecosystem. Re-exports the full [`@kevincii/http-query-core`](https://github.com/Kevinci/http-query/tree/main/packages/core)
+API and ships a preconfigured default client.
 
-## Quick Start
+> **Browser support:** As of 2026 browsers cannot send the `QUERY` method via
+> `fetch`, so the client automatically falls back to `POST` (or `GET`, which is
+> serialized to a query string). In Node.js (≥20) `QUERY` is sent natively.
 
-### Installation
-
-```bash
-cd packages/client
-npm install
-```
-
-### Build
+## Install
 
 ```bash
-npm run build
+npm install @kevincii/http-query-client
 ```
 
-### Tests
-
-```bash
-npm test
-```
-
-### Development with Demo
-
-To run the demo locally with auto-rebuild on file changes:
-
-**Terminal 1 — Start the dev server (serves demo + dist):**
-```bash
-npm run dev
-```
-This will:
-- Build the package once
-- Start `tsup --watch` for automatic rebuilds
-- Start a local HTTP server on http://localhost:5173
-
-**Terminal 2 — Start the mock API server (CORS-enabled QUERY endpoint):**
-```bash
-npm run mock-server
-```
-This will start a mock API on http://localhost:3000 that:
-- Supports all HTTP methods including QUERY
-- Includes proper CORS headers allowing QUERY from any origin
-- Echoes back the request (method, URL, body, headers, timestamp)
-
-**Terminal 3 (optional) — Watch tests:**
-```bash
-npm test -- --watch
-```
-
-### Try the Demo
-
-1. Open http://localhost:5173 in your browser
-2. Edit the URL, body, fallback method, timeout as desired
-3. Click "Send QUERY"
-4. The response from the mock server appears below
-
-## API Usage
+## Quick start
 
 ```ts
-import { createClient, query } from "@http-query/client";
+import { client, createBrowserClient, query } from "@kevincii/http-query-client";
 
-const client = createClient({ 
-  baseUrl: "https://api.example.com", 
-  fallback: "POST" 
+// 1) shared default client — zero config
+const users = await client.query<User[]>("/users", { active: true });
+
+// 2) a configured client
+const api = createBrowserClient({ baseUrl: "https://api.example.com" });
+const page = await api.query<User[]>("/users", {
+  page: 1,
+  sort: "name",
+  filter: { age: { gte: 18 }, country: { in: ["DE", "AT"] } },
 });
 
-const users = await client.request<User[]>("/users", { 
-  body: { active: true } 
-});
-
-// top-level shortcut
-const data = await query("/users", { body: { q: 1 } });
+// 3) top-level shortcut
+const data = await query("/users", { sort: "name" });
 ```
 
 ## Features
 
-- **HTTP QUERY method** — send requests with JSON body
-- **Automatic fallbacks** — try QUERY → POST → GET with automatic query param serialization for GET
-- **Type safety** — fully generic request and response types
-- **AbortController** — cancel requests with signal
-- **Timeout** — automatic abort after specified duration
-- **Retries** — exponential backoff for safe requests (QUERY, GET, HEAD)
-- **Custom errors** — HttpError, TimeoutError, NetworkError, ParseError
-- **Response parsing** — json, text, blob, arrayBuffer
-- **Middleware** — beforeRequest, afterResponse, onError hooks
-- **Caching** — optional in-memory cache with TTL (safe requests only)
+- **Type-safe `query()`** — pass a params object, get a typed response.
+- **Nested filters** — `{ filter: { age: { gte: 18 } } }` → `filter[age][gte]=18`.
+- **QUERY-first** with automatic `POST` / `GET` fallback.
+- **Retries** (exponential backoff), **timeout**, **AbortController**.
+- **In-memory caching** with TTL, **middleware** hooks.
+- **Pagination** helpers (`paginate`, `collectPages`, `queryPage`).
 
-## Deployment
+Everything from the core API is re-exported here. See the
+[documentation site](https://kevinci.github.io/http-query/) for the full
+reference and options.
 
-### GitHub Pages
+## Local development
 
-Build and prepare docs for GitHub Pages deployment:
+From the repository root:
 
 ```bash
-npm run prepare:ghpages
+npm install
+npm run build            # build all packages
+npm test                 # test all packages
 ```
 
-This copies `dist/` and `demo/` to `docs/client/` for GitHub Pages hosting.
-
-### Continuous Deployment
-
-The repository includes a GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) that automatically:
-- Builds the package on push to main
-- Runs `npm run prepare:ghpages`
-- Deploys to GitHub Pages
-
-To enable:
-1. Push to main
-2. Go to repo Settings → Pages
-3. Select Deploy from branch: main, folder: /docs
+A CORS-enabled mock server (supports the real `QUERY` method) is available for
+manual testing: `npm run mock-server` inside `packages/client`.

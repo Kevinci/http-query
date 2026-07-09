@@ -1,0 +1,36 @@
+{
+  "name": "http-query",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The @kevincii/http-query ecosystem — a type-safe, QUERY-first toolkit for complex API reads (core, client, react, next).",
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Imig",
+    "url": "https://github.com/Kevinci/http-query"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kevinci/http-query.git"
+  },
+  "homepage": "https://github.com/Kevinci/http-query#readme",
+  "workspaces": [
+    "packages/core",
+    "packages/client",
+    "packages/react",
+    "packages/next"
+  ],
+  "scripts": {
+    "build": "npm run build -w @kevincii/http-query-core && npm run build -w @kevincii/http-query-client && npm run build -w @kevincii/http-query-react && npm run build -w @kevincii/http-query-next",
+    "test": "npm run test -w @kevincii/http-query-core -- --run && npm run test -w @kevincii/http-query-client -- --run && npm run test -w @kevincii/http-query-react -- --run && npm run test -w @kevincii/http-query-next -- --run",
+    "docs": "npm run prepare:ghpages -w @kevincii/http-query-client",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
