@@ -114,6 +114,7 @@
           <li class="group">Core</li>
           <li><a href="#core">Getting started</a></li>
           <li><a href="#core-query">query()</a></li>
+          <li><a href="#core-query-modes">Query modes</a></li>
           <li><a href="#core-filters">Filters</a></li>
           <li><a href="#core-serialize">Serialization</a></li>
           <li><a href="#core-pagination">Pagination</a></li>
@@ -236,18 +237,107 @@ await client.query&lt;User[]&gt;("/users", { active: true });
 
 // Low-level — explicit method and body (e.g. writes)
 await client.request&lt;User&gt;("/users", { method: "POST", body: { name: "Ada" } });</code></pre>
-          <h4>How params reach the wire — the <code>mode</code> option</h4>
+        </section>
+
+        <section id="core-query-modes">
+          <h3>Query modes — <code>auto</code> vs <code>params</code></h3>
+          <p>
+            The <code>mode</code> option controls how <code>query()</code> puts parameters on the wire.
+            Set it once when creating the client, or override it per request as a third argument.
+          </p>
           <table>
-            <thead><tr><th>mode</th><th>Behavior</th></tr></thead>
+            <thead><tr><th>mode</th><th>What goes on the wire</th><th>When to use</th></tr></thead>
             <tbody>
-              <tr><td><code>"auto"</code> (default)</td><td>Send a QUERY request with a JSON body; fall back to POST (JSON body) then GET (query string) if the server rejects QUERY.</td></tr>
-              <tr><td><code>"query"</code></td><td>Always attempt the QUERY method first.</td></tr>
-              <tr><td><code>"params"</code></td><td>Always send a plain <code>GET</code> with a serialized query string — no body.</td></tr>
+              <tr>
+                <td><code>"auto"</code> (default)</td>
+                <td>QUERY with JSON body → falls back to POST (JSON body) → GET (query string) on 405/501</td>
+                <td>Most apps. Sends the richest possible request, degrades automatically.</td>
+              </tr>
+              <tr>
+                <td><code>"query"</code></td>
+                <td>Same as <code>auto</code> today — always attempts QUERY first</td>
+                <td>When you control client and server and know QUERY is supported.</td>
+              </tr>
+              <tr>
+                <td><code>"params"</code></td>
+                <td>Plain GET with all params serialized into the query string — no body</td>
+                <td>Servers that only speak GET, CDN-cacheable reads, or simple flat params.</td>
+              </tr>
             </tbody>
           </table>
-          <pre><code>const client = createClient({ baseUrl: "/api", mode: "params" });
-await client.query("/users", { filter: { age: { gte: 18 } }, country: "DE" });
-// GET /api/users?filter[age][gte]=18&amp;country=DE</code></pre>
+
+          <h4>Mode <code>"auto"</code> — QUERY-first with automatic fallback</h4>
+          <p>
+            This is the default. The client sends an HTTP <code>QUERY</code> request with a JSON body.
+            If the server responds with <code>405 Method Not Allowed</code> or <code>501 Not Implemented</code>,
+            the client automatically retries with the configured <code>fallback</code> method
+            (<code>"POST"</code> by default).
+          </p>
+          <pre><code>import { createClient } from "@kevincii/http-query-core";
+
+const client = createClient({ baseUrl: "https://api.example.com" });
+// ↑ mode: "auto" and fallback: "POST" are the defaults
+
+// What the client sends on the wire:
+// 1st attempt → QUERY /users  body: { "filter": { "age": { "gte": 18 } }, "sort": "name" }
+// Server returns 405 → retry automatically
+// 2nd attempt → POST  /users  body: { "filter": { "age": { "gte": 18 } }, "sort": "name" }
+const users = await client.query("/users", {
+  filter: { age: { gte: 18 } },
+  sort: "name",
+});
+
+// Override the fallback to GET (params serialized into the query string)
+const client2 = createClient({ baseUrl: "/api", fallback: "GET" });
+// QUERY /users {...} → 405 → GET /users?filter[age][gte]=18&amp;sort=name</code></pre>
+          <div class="note">
+            <strong>Per-request override.</strong> Pass <code>{ mode: "auto" }</code> as the third argument to
+            override the client-level mode for a single call without creating a new client.
+          </div>
+          <pre><code>// Client defaults to "params", but this one call uses auto
+await client.query("/search", { q: "Ada" }, { mode: "auto" });</code></pre>
+
+          <h4>Mode <code>"params"</code> — always GET with a query string</h4>
+          <p>
+            Every call becomes a plain <code>GET</code> request. Parameters are serialized into the URL using
+            bracket notation for nested objects and arrays. No request body is sent.
+            Use this when the server only handles GET, when you need CDN-level caching, or when params are shallow enough to fit in a URL.
+          </p>
+          <pre><code>import { createClient } from "@kevincii/http-query-core";
+
+const client = createClient({ baseUrl: "https://api.example.com", mode: "params" });
+
+// GET /users?page=1&amp;sort=name&amp;filter[age][gte]=18&amp;filter[country][in]=DE&amp;filter[country][in]=AT
+await client.query("/users", {
+  page: 1,
+  sort: "name",
+  filter: {
+    age: { gte: 18 },
+    country: { in: ["DE", "AT"] },
+  },
+});
+
+// Tags use repeat format by default: GET /tags?tag=a&amp;tag=b
+await client.query("/tags", { tag: ["a", "b"] });
+
+// Switch to comma format for this request
+// GET /tags?tag=a,b
+await client.query("/tags", { tag: ["a", "b"] }, {
+  mode: "params",
+  serialize: { arrayFormat: "comma" },
+});</code></pre>
+
+          <h4>Choosing between the modes</h4>
+          <table>
+            <thead><tr><th>Situation</th><th>Recommended mode</th></tr></thead>
+            <tbody>
+              <tr><td>General-purpose app, server may or may not support QUERY</td><td><code>"auto"</code></td></tr>
+              <tr><td>You control both client and server, QUERY is enabled</td><td><code>"query"</code></td></tr>
+              <tr><td>Server only accepts GET, or you need CDN caching</td><td><code>"params"</code></td></tr>
+              <tr><td>Params are deeply nested — bracket notation gets long</td><td><code>"auto"</code> (JSON body stays clean)</td></tr>
+              <tr><td>Params are shallow and you want bookmarkable URLs</td><td><code>"params"</code></td></tr>
+            </tbody>
+          </table>
         </section>
 
         <section id="core-filters">

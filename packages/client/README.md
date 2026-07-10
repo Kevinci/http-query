@@ -5,9 +5,14 @@ DX-focused entry point of the [`@kevincii/http-query`](https://github.com/Kevinc
 ecosystem. Re-exports the full [`@kevincii/http-query-core`](https://github.com/Kevinci/http-query/tree/main/packages/core)
 API and ships a preconfigured default client.
 
-> **Browser support:** As of 2026 browsers cannot send the `QUERY` method via
-> `fetch`, so the client automatically falls back to `POST` (or `GET`, which is
-> serialized to a query string). In Node.js (≥20) `QUERY` is sent natively.
+> **Browser & QUERY support:** `QUERY` is a valid `fetch` method —
+> `fetch(url, { method: "QUERY", body })` works in current browsers (it is neither a
+> forbidden nor a normalized method) and in Node.js (≥20). The practical caveats:
+> cross-origin QUERY always triggers a CORS preflight (it is not safelisted), browsers
+> don't cache QUERY responses yet, HTML `<form>`s fall back to GET, and many
+> servers/proxies/CDNs don't handle QUERY yet. That's why the client keeps an automatic
+> `POST` (or `GET`, serialized to a query string) fallback — send QUERY where it's
+> supported, degrade gracefully everywhere else.
 
 ## Install
 
@@ -34,6 +39,68 @@ const page = await api.query<User[]>("/users", {
 // 3) top-level shortcut
 const data = await query("/users", { sort: "name" });
 ```
+
+## Query modes — `auto` vs `params`
+
+The `mode` option controls how `query()` puts parameters on the wire. Set it once on the client or override per request.
+
+### `"auto"` (default) — QUERY-first with automatic fallback
+
+Sends an HTTP `QUERY` request with a JSON body. If the server responds with `405` or `501`, the client automatically retries with the fallback method (`"POST"` by default, then `"GET"` with a serialized query string).
+
+```ts
+const client = createBrowserClient({ baseUrl: "https://api.example.com" });
+// mode: "auto", fallback: "POST" are the defaults
+
+// 1st try → QUERY /users  body: { "filter": { "age": { "gte": 18 } }, "sort": "name" }
+// Server returns 405 → retry automatically
+// 2nd try → POST  /users  body: { "filter": { "age": { "gte": 18 } }, "sort": "name" }
+const users = await client.query<User[]>("/users", {
+  filter: { age: { gte: 18 } },
+  sort: "name",
+});
+```
+
+Use `"auto"` for most apps — it sends the richest possible request and degrades gracefully.
+
+### `"params"` — always GET with a query string
+
+Every call becomes a plain `GET`. Parameters are serialized into the URL using bracket notation. No body is sent. Use this for servers that only handle GET, CDN-cacheable reads, or shallow params.
+
+```ts
+const client = createBrowserClient({ baseUrl: "https://api.example.com", mode: "params" });
+
+// GET /users?page=1&sort=name&filter[age][gte]=18&filter[country][in]=DE&filter[country][in]=AT
+await client.query<User[]>("/users", {
+  page: 1,
+  sort: "name",
+  filter: {
+    age: { gte: 18 },
+    country: { in: ["DE", "AT"] },
+  },
+});
+```
+
+### Per-request override
+
+Pass `mode` as part of the third argument to override the client default for a single call:
+
+```ts
+// Client defaults to "params", but this one call uses QUERY/POST
+await client.query("/search", { q: "Ada" }, { mode: "auto" });
+
+// Client defaults to "auto", but this call forces a plain GET
+await client.query("/config", { locale: "de" }, { mode: "params" });
+```
+
+### When to use which
+
+| Situation | Mode |
+|---|---|
+| General-purpose app, server may not support QUERY | `"auto"` |
+| Server only accepts GET, or you need CDN caching | `"params"` |
+| Deeply nested filters (bracket notation gets long) | `"auto"` (JSON body stays clean) |
+| Shallow params, bookmarkable URLs | `"params"` |
 
 ## Features
 

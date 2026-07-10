@@ -13,13 +13,26 @@
     "directory": "packages/react"
   },
   "homepage": "https://github.com/Kevinci/http-query/tree/main/packages/react#readme",
-  "keywords": ["http", "query", "react", "hooks", "fetch", "typescript", "cache", "pagination"],
+  "keywords": [
+    "http",
+    "query",
+    "react",
+    "hooks",
+    "fetch",
+    "typescript",
+    "cache",
+    "pagination"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "files": ["dist", "LICENSE", "README.md"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "vitest",
@@ -51,5 +64,8 @@
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
     "vitest": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
