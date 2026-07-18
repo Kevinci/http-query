@@ -57,7 +57,7 @@ All work for publish-ready package completed. Here's what was added:
 
 4. **LICENSE** (New)
    - MIT License file at repo root
-   - Copyright: HTTP Query Contributors
+   - Copyright: Kevin Imig
 
 ### C. Automation & CI/CD
 
