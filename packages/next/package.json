@@ -1,6 +1,6 @@
 {
   "name": "@kevincii/http-query-next",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Next.js integration for the HTTP QUERY method: a Node server client, RSC data fetching, App Router route-handler helpers, and re-exported React hooks.",
   "license": "MIT",
   "author": {
@@ -46,8 +46,8 @@
     }
   },
   "dependencies": {
-    "@kevincii/http-query-core": "^0.2.0",
-    "@kevincii/http-query-react": "^0.2.0"
+    "@kevincii/http-query-core": "^0.3.0",
+    "@kevincii/http-query-react": "^0.3.0"
   },
   "peerDependencies": {
     "next": ">=14",

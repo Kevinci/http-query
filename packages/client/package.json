@@ -1,6 +1,6 @@
 {
   "name": "@kevincii/http-query-client",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Batteries-included TypeScript client for the HTTP QUERY method: type-safe queries, nested filters, fallbacks, retries, timeout, caching, pagination. Browser + Node.",
   "license": "MIT",
   "author": {
@@ -51,7 +51,7 @@
     }
   },
   "dependencies": {
-    "@kevincii/http-query-core": "^0.2.0"
+    "@kevincii/http-query-core": "^0.3.0"
   },
   "engines": {
     "node": ">=20"

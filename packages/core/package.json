@@ -1,6 +1,6 @@
 {
   "name": "@kevincii/http-query-core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Framework-agnostic engine for the HTTP QUERY method: type-safe query building, nested filter serialization, fallbacks, retries, timeout, caching, pagination. Zero dependencies.",
   "license": "MIT",
   "author": {

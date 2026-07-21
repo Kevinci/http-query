@@ -1,6 +1,6 @@
 {
   "name": "@kevincii/http-query-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "React hooks for the HTTP QUERY method: useHttpQuery, useInfiniteHttpQuery, useHttpMutation, with a cache-backed provider. Built on @kevincii/http-query-core.",
   "license": "MIT",
   "author": {
@@ -46,7 +46,7 @@
     }
   },
   "dependencies": {
-    "@kevincii/http-query-core": "^0.2.0"
+    "@kevincii/http-query-core": "^0.3.0"
   },
   "peerDependencies": {
     "react": ">=18"
